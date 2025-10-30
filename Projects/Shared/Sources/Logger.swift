@@ -7,6 +7,9 @@
 import OSLog
 
 public struct Logger: Sendable {
+  public init() {
+  }
+
   @inlinable public func log(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
     printLog(file: file, function: function, line: line) {
       let log = "\(message())"
