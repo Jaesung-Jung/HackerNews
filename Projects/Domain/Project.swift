@@ -15,6 +15,7 @@ let project = Project.project(
       buildableFolders: [.sources, .resources],
       scripts: [.swiftlint],
       dependencies: [
+        .external(.alamofire),
         .external(.swiftSoup),
         .project(.shared)
       ],

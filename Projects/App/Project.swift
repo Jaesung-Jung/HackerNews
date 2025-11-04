@@ -25,7 +25,9 @@ let project = Project(
       ),
       buildableFolders: [.sources, .resources],
       scripts: [.swiftlint],
-      dependencies: []
+      dependencies: [
+        .project(.domain)
+      ]
     )
   ]
 )

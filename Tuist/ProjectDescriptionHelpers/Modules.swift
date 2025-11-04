@@ -21,6 +21,7 @@ extension Module {
     case shared = "Shared"
 
     case composableArchitecture = "ComposableArchitecture"
+    case alamofire = "Alamofire"
     case swiftSoup = "SwiftSoup"
 
     var isProjectModule: Bool {
