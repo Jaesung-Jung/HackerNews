@@ -2,7 +2,7 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let module = Module.app
-let project = Project(
+let project = Project.project(
   name: .projectName("App"),
   options: .defaultOptions,
   settings: .defaultProjectSettings.withDevelopmentAssets(),
