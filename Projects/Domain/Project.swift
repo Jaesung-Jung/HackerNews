@@ -1,29 +1,26 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let module = Module.Name.domain
+let module = Module.domain
 let project = Project.project(
   name: .projectName("Domain"),
   options: .defaultOptions,
-  settings: .defaultProjectSettings,
+  settings: .defaultProjectSettings.withDevelopmentAssets(),
   targets: [
     .target(
-      name: module,
-      product: .framework,
+      module: module,
       bundleId: .bundleIdentifier("domain"),
       infoPlist: .default,
       buildableFolders: [.sources, .resources],
       scripts: [.swiftlint],
       dependencies: [
-        .external(.alamofire),
-        .external(.swiftSoup),
-        .project(.shared)
+        .dependency(.shared),
+        .dependency(.dependencies)
       ],
       settings: .defaultTargetSettings(module)
     ),
-    .target(
-      name: module,
-      product: .unitTests,
+    .testTarget(
+      module: module,
       bundleId: .bundleIdentifier("domain", "tests"),
       buildableFolders: [.tests],
       dependencies: [.target(module)],

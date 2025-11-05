@@ -1,14 +1,14 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
+let module = Module.app
 let project = Project(
   name: .projectName("App"),
   options: .defaultOptions,
-  settings: .defaultProjectSettings,
+  settings: .defaultProjectSettings.withDevelopmentAssets(),
   targets: [
     .target(
-      name: .app,
-      product: .app,
+      module: module,
       bundleId: .bundleIdentifier(),
       infoPlist: .extendingDefault(
         with: [
@@ -26,7 +26,8 @@ let project = Project(
       buildableFolders: [.sources, .resources],
       scripts: [.swiftlint],
       dependencies: [
-        .project(.domain)
+        .dependency(.domain),
+        .dependency(.composableArchitecture)
       ]
     )
   ]

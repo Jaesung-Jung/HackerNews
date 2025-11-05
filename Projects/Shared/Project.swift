@@ -1,15 +1,14 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let module = Module.Name.shared
+let module = Module.shared
 let project = Project.project(
   name: .projectName("Shared"),
   options: .defaultOptions,
   settings: .defaultProjectSettings,
   targets: [
     .target(
-      name: module,
-      product: .framework,
+      module: module,
       bundleId: .bundleIdentifier("shared"),
       infoPlist: .default,
       buildableFolders: [.sources],
@@ -18,9 +17,8 @@ let project = Project.project(
       ],
       settings: .defaultTargetSettings(module)
     ),
-    .target(
-      name: module,
-      product: .unitTests,
+    .testTarget(
+      module: module,
       bundleId: .bundleIdentifier("shared", "tests"),
       buildableFolders: [.tests],
       dependencies: [.target(module)],
