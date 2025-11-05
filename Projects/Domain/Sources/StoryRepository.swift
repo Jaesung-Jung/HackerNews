@@ -1,8 +1,25 @@
 //
 //  StoryRepository.swift
 //
-//  Copyright © 2025 JS. All rights reserved.
+//  Copyright © 2025 Jaesung Jung. All rights reserved.
 //
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 
 import Foundation
 import HackerNewsShared
@@ -37,8 +54,8 @@ extension StoryRepository {
     var stories: [String: Any]?
     return StoryRepository { api in
       switch api {
-      case .stories(let type):
-        return try json(type.rawValue) ?? Data()
+      case .storyIds(let type):
+        return try json(type.resourceName) ?? Data()
       case .item(let id):
         if stories == nil {
           stories = try json("stories").flatMap { try JSONSerialization.jsonObject(with: $0) as? [String: Any] }
@@ -58,7 +75,7 @@ extension StoryRepository {
 
 extension StoryRepository {
   public func fetchStoryIds(for type: StoryType) async throws -> [Story.ID] {
-    let data = try await fetchData(.stories(type))
+    let data = try await fetchData(.storyIds(type))
     return try JSONDecoder().decode([Story.ID].self, from: data)
   }
 
@@ -84,20 +101,12 @@ extension StoryRepository {
     let decoder = JSONDecoder().then {
       $0.dateDecodingStrategy = .secondsSince1970
     }
-    return try decoder.decode(Story.self, from: data)
-  }
-}
-
-// MARK: - StoryRepository.StoryType
-
-extension StoryRepository {
-  public enum StoryType: String {
-    case top = "topstories"
-    case new = "newstories"
-    case best = "beststories"
-    case ask = "askstories"
-    case show = "showstories"
-    case job = "jobstories"
+    do {
+      return try decoder.decode(Story.self, from: data)
+    } catch {
+      print("throw id: \(id)")
+      throw error
+    }
   }
 }
 
@@ -105,13 +114,13 @@ extension StoryRepository {
 
 extension StoryRepository {
   enum API {
-    case stories(StoryType)
+    case storyIds(StoryType)
     case item(Int)
 
     @inlinable func makeURL(baseURL: URL) -> URL {
       switch self {
-      case .stories(let type):
-        return baseURL.appending(component: "\(type.rawValue).json")
+      case .storyIds(let type):
+        return baseURL.appending(component: "\(type.resourceName).json")
       case .item(let id):
         return baseURL.appending(component: "item/\(id).json")
       }

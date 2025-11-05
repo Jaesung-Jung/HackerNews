@@ -1,5 +1,5 @@
 //
-//  Bundle+Module.swift
+//  StoryType.swift
 //
 //  Copyright © 2025 Jaesung Jung. All rights reserved.
 //
@@ -21,11 +21,28 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-import Foundation
+public enum StoryType {
+  case top
+  case new
+  case best
+  case ask
+  case show
+  case job
 
-extension Foundation.Bundle {
-  private class ModuleBundle {
+  var resourceName: String {
+    switch self {
+    case .top:
+      return "topstories"
+    case .new:
+      return "newstories"
+    case .best:
+      return "beststories"
+    case .ask:
+      return "askstories"
+    case .show:
+      return "showstories"
+    case .job:
+      return "jobstories"
+    }
   }
-
-  static let module = Bundle(for: ModuleBundle.self)
 }
