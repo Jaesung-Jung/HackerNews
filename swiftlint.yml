@@ -85,7 +85,6 @@ only_rules:
   - notification_center_detachment
   - ns_number_init_as_function_reference
   - nsobject_prefer_isequal
-  - number_separator
   - operator_usage_whitespace
   - overridden_super_call
   - prefer_self_type_over_type_of_self
