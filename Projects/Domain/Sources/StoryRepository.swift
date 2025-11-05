@@ -31,17 +31,23 @@ extension StoryRepository {
   #if DEBUG
 
   public static func stub() -> StoryRepository {
+    let json: (String) throws -> Data? = {
+      try Bundle.module.url(forResource: $0, withExtension: "json").flatMap { try Data(contentsOf: $0) }
+    }
+    var stories: [String: Any]?
     return StoryRepository { api in
-      let resource = switch api {
+      switch api {
       case .stories(let type):
-        type.rawValue
-      case .item:
-        "item"
+        return try json(type.rawValue) ?? Data()
+      case .item(let id):
+        if stories == nil {
+          stories = try json("stories").flatMap { try JSONSerialization.jsonObject(with: $0) as? [String: Any] }
+        }
+        guard let item = stories?["\(id)"] else {
+          return Data()
+        }
+        return try JSONSerialization.data(withJSONObject: item)
       }
-      guard let url = Bundle.module.url(forResource: resource, withExtension: "json") else {
-        return Data()
-      }
-      return try Data(contentsOf: url)
     }
   }
 
@@ -51,7 +57,7 @@ extension StoryRepository {
 // MARK: - StoryRepository (Public)
 
 extension StoryRepository {
-  public func storyIds(for type: StoryType) async throws -> [Story.ID] {
+  public func fetchStoryIds(for type: StoryType) async throws -> [Story.ID] {
     let data = try await fetchData(.stories(type))
     return try JSONDecoder().decode([Story.ID].self, from: data)
   }

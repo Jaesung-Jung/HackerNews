@@ -16,13 +16,12 @@ struct ContentView: View {
       .padding()
       .task {
         do {
-          let hacker = StoryRepository()
-          let ids = try await hacker.storyIds(for: .new)
-//          print(ids)
-          let stories = try await hacker.fetchStories(for: ids[..<5])
-//          let stories = try await hacker.topStories(page: 1)
-          print(stories)
-          print(stories.count)
+          let hacker = StoryRepository.stub()
+          let ids = try await hacker.fetchStoryIds(for: .top)
+          let story1 = try await hacker.fetchStory(for: ids[0])
+          print(story1)
+          let story2 = try await hacker.fetchStory(for: ids[1])
+          print(story2)
         } catch {
           logger.fault(error)
         }
