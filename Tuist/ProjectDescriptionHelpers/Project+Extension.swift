@@ -86,7 +86,7 @@ extension Settings {
       "SWIFT_EMIT_LOC_STRINGS": true,
       "ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS": true,
       "ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME": "AccentColor",
-      "DEVELOPMENT_ASSET": "Resources/Development"
+      "DEVELOPMENT_ASSET_PATHS": "Resources/Development"
     ],
     defaultSettings: .recommended
   )
