@@ -91,3 +91,48 @@ extension Story: Decodable {
     self.commentIds = try container.decodeIfPresent([Int].self, forKey: "kids") ?? []
   }
 }
+
+// MARK: - Story (Preview)
+
+#if DEBUG
+
+extension Story {
+  public static let previewURLContent = Story(
+    id: 45794032,
+    date: Date(timeIntervalSince1970: 1762122762),
+    author: "cjbarber",
+    title: "Facts about throwing good parties",
+    content: .url(URL(string: "https://www.atvbt.com/21-facts-about-throwing-good-parties/")!),
+    score: 1931,
+    commentIds: [
+      45794946,
+      45794756,
+      45795893,
+      45794696,
+      45796043,
+      45794494
+    ]
+  )
+
+  public static let previewTextContent = Story(
+    id: 45777351,
+    date: Date(timeIntervalSince1970: 1761949541),
+    author: "blindprogrammer",
+    title: "Ask HN: Why I rarely see game dev startup here?",
+    content: .text("Do investors despise game development companies, and do you have to go solo? If so, I would have expected to see at least one on Show HN. Or maybe I missed it—definitely not as popular as other apps.<p>Also, why haven’t LLM wrappers penetrated this sector? Is it because OpenAI and other “parasites” haven’t had the opportunity to access source code to build their wholesale theft, so they don’t have the code to instruct you to build games? Or maybe there are a lot, and I just missed them."),
+    score: 519,
+    commentIds: [
+      45777694,
+      45809787,
+      45799417,
+      45792018,
+      45781126,
+      45778415,
+      45780509,
+      45778892,
+      45779998
+    ]
+  )
+}
+
+#endif
