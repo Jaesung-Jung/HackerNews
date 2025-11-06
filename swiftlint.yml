@@ -154,8 +154,6 @@ analyzer_rules:
   - unused_import
 for_where:
   allow_for_as_filter: true
-number_separator:
-  minimum_length: 5
 identifier_name:
   max_length:
     warning: 100
